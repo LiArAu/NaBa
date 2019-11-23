@@ -43,7 +43,7 @@ newdata=test[81:100,1:4]
 ```
 
 ```{r}
-library(yajing625pkg)
+library(NaBa)
 prior=Info_prior(x,y)
 ppd_data=prep(prior,newdata)
 myresult=predict.naBa(prior,ppd_data,"raw")

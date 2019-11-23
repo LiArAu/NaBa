@@ -1,6 +1,6 @@
 #' Predict outcome of new data
 #'
-#' You can use `Predict.naBa` with any data frame.
+#' You can use `Predict_naBa` with any data frame.
 #'
 #' @param prior Prior information. (output of Info_prior())
 #' @param ppd_data Prepared newdata with the same format as prior dataset. (Output of prep())
@@ -17,9 +17,10 @@
 #' y=iris[,5]
 #' prior=Info_prior(x,y)  #Laplace=0 as default
 #' ppd_data=prep(prior,newdata)
-#' myresult=predict.naBa(prior,ppd_data,"raw")
+#' myresult=predict_naBa(prior,ppd_data,"raw")
 
-predict.naBa=function(prior,ppd_data, type = c("class", "raw"),eps=0,threshold=0.001){
+predict_naBa=function(prior,ppd_data, type = c("class", "raw"),eps=0,threshold=0.001){
+  source("~/NaBa/R/Rcpp_predict.R")
   ny=length(prior$apriori)
   newdata=ppd_data$new
   newdata_num=as.matrix(newdata[,ppd_data$num_var])

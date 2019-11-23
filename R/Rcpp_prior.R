@@ -1,4 +1,3 @@
-
 library(Rcpp)
 cppFunction('
 List pdist_num(NumericMatrix all_numpredictors,CharacterVector varname,CharacterVector y,CharacterVector type){

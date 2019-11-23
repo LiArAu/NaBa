@@ -24,6 +24,7 @@
 #' prior
 
 Info_prior=function(x,y,laplace=0){
+  source("~/NaBa/R/Rcpp_prior.R")
   x.num=as.matrix(x[,sapply(x[1,],is.numeric)])
   x.cat=as.matrix(x[,!sapply(x[1,],is.numeric)])
 
