@@ -44,19 +44,21 @@ newdata=test[81:100,1:4]
 
 ```{r}
 library(NaBa)
-prior=Info_prior(x,y)
-ppd_data=prep(prior,newdata)
-myresult=predict.naBa(prior,ppd_data,"raw")
-#prior$numvar_dist
-#prior$catvar_conpro
+prior=NaBa::Info_prior(x,y)
+ppd_data=NaBa::prep(prior,newdata)
+myresult=NaBa::predict_naBa(prior,ppd_data,"raw")
 myresult
 ```
 
 ```{r}
 #compared to e1071
+library(e1071)
 prior2=e1071::naiveBayes(x,y)
 e1071result=predict(prior2,newdata,"raw")
-#prior2$tables
 e1071result
+```
+
+```{r}
+all.equal(myresult,e1071result)
 
 ```

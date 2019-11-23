@@ -24,7 +24,6 @@
 #' prior
 
 Info_prior=function(x,y,laplace=0){
-  library(Rcpp)
   cppFunction('List pdist_num(NumericMatrix all_numpredictors,CharacterVector varname,CharacterVector y,CharacterVector type){
     int nvar=all_numpredictors.ncol();
     int l=y.length();
@@ -96,11 +95,11 @@ Info_prior=function(x,y,laplace=0){
   colnames(x.cat)=colnames(x)[!sapply(x[1,],is.numeric)]
   apriori <- table(y)/length(y)
   if (ncol(x.num)==0){
-    numvar_tables=NA
+    numvar_tables=NULL
     catvar_tables=llh_cat(x.cat,colnames(x.cat),y,laplace)
   }
   else if (ncol(x.cat)==0){
-    catvar_tables=NA
+    catvar_tables=NULL
     numvar_tables=pdist_num(x.num,colnames(x.num),y,levels(y))
   }
   else{

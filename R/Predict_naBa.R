@@ -20,7 +20,6 @@
 #' myresult=predict_naBa(prior,ppd_data,"raw")
 
 predict_naBa=function(prior,ppd_data, type = c("class", "raw"),eps=0,threshold=0.001){
-  library(Rcpp)
   one_ob_prob_num=function(y_len,newdata_num,table,eps=0,threshold=0.001){
     prob=matrix(nrow=y_len,ncol=length(newdata_num))
     for (j in 1:length(newdata_num)){
@@ -79,11 +78,12 @@ predict_naBa=function(prior,ppd_data, type = c("class", "raw"),eps=0,threshold=0
     prob.cat=prob_cat(ny,newdata_cat,prior$catvar_conpro,one_ob_prob_cat)
     prob.num=prob_num(ny,newdata_num,prior$numvar_dist,one_ob_prob_num)
     numerator=t(prob.num+prob.cat)}
-  if (type == "class"){
-    output=as.factor(names(prior$apriori)[apply(numerator, 1, which.max)])}
-  else {
     numerator=numerator+t(matrix(log(prior$apriori),ny,nrow(newdata)))
-    output=sapply(1:ny,function(y){ 1/rowSums(exp(numerator - numerator[,y]))})}
+    output=sapply(1:ny,function(y){ 1/rowSums(exp(numerator - numerator[,y]))})
+  if (type == "class"){
+    output=as.factor(names(prior$apriori)[apply(output, 1, which.max)])}
+  else {
+    colnames(output)=names(prior$apriori)}
   return (output)
 }
 
