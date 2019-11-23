@@ -78,6 +78,7 @@ predict_naBa=function(prior,ppd_data, type = c("class", "raw"),eps=0,threshold=0
     prob.cat=prob_cat(ny,newdata_cat,prior$catvar_conpro,one_ob_prob_cat)
     prob.num=prob_num(ny,newdata_num,prior$numvar_dist,one_ob_prob_num)
     numerator=t(prob.num+prob.cat)}
+
     numerator=numerator+t(matrix(log(prior$apriori),ny,nrow(newdata)))
     output=sapply(1:ny,function(y){ 1/rowSums(exp(numerator - numerator[,y]))})
   if (type == "class"){
