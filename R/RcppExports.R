@@ -13,7 +13,7 @@ prob_cat <- function(ly, ty, newdata, table) {
     .Call('_NaBa_prob_cat', PACKAGE = 'NaBa', ly, ty, newdata, table)
 }
 
-prob_num <- function(ly, ty, newdata, table, eps = 0, threshold = 0.001) {
-    .Call('_NaBa_prob_num', PACKAGE = 'NaBa', ly, ty, newdata, table, eps, threshold)
+prob_num <- function(ly, ty, newdata, table) {
+    .Call('_NaBa_prob_num', PACKAGE = 'NaBa', ly, ty, newdata, table)
 }
 

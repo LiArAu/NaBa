@@ -29,8 +29,8 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
   colnames(ppd_data)=prior$var_names
   ny=length(prior$apriori)
   newdata=ppd_data
-  num_var=names(prior$numvar_dist)
-  cat_var=names(prior$catvar_conpro)
+  num_var=prior$numvar_names
+  cat_var=prior$catvar_names
 
   if (length(num_var)==0){
     newdata_cat=as.matrix(newdata[,cat_var])
