@@ -43,7 +43,7 @@ newdata=test[81:100,1:4]
 ```
 
 ```{r}
-#devtools::install_github("LiArAu/NaBa")
+devtools::install_github("LiArAu/NaBa")
 library(NaBa)
 library(Rcpp)
 prior=NaBa::Info_prior(x,y)
