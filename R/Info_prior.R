@@ -26,8 +26,7 @@
 Info_prior=function(x,y,laplace=0){
   x.num=as.matrix(x[,sapply(x[1,],is.numeric)])
   x.cat=as.matrix(x[,!sapply(x[1,],is.numeric)])
-
-  #when only one numeric predictor or categorical predictor
+  #in case only one numeric predictor or categorical predictor
   colnames(x.num)=colnames(x)[sapply(x[1,],is.numeric)]
   colnames(x.cat)=colnames(x)[!sapply(x[1,],is.numeric)]
   apriori <- table(y)/length(y)

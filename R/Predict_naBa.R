@@ -40,8 +40,7 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
         a[a<=eps]=threshold
         a=log(a)
         return (a)})})
-    numerator=as.data.frame(lapply(prob.cat,rowSums))
-    }
+    numerator=as.data.frame(lapply(prob.cat,rowSums))}
   else if (length(cat_var)==0){
     newdata_num=as.matrix(newdata[,num_var])
     prob.num=prob_num(nlevels(y),levels(y),newdata_num,prior$tables[colnames(newdata_num)])
@@ -68,8 +67,8 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
         a[a<=eps]=threshold
         a=log(a)
         return (a)})})
-    foo <- function(x, y) {lapply(list(x+y),rowSums)}
-    numerator=as.data.frame(mapply(foo, prob.cat, prob.num))
+    foo <- function(x, y) {list(x+y)}
+    numerator=as.data.frame(mapply(foo, lapply(prob.cat,rowSums), lapply(prob.num,rowSums)))
     }
   numerator=numerator+t(matrix(log(prior$apriori),ny,nrow(newdata)))
   output=sapply(1:ny,function(y){ 1/rowSums(exp(numerator - numerator[,y]))})
