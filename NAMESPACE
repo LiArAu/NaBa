@@ -3,4 +3,4 @@
 export(Info_prior)
 export(predict_naBa)
 importFrom(Rcpp,sourceCpp)
-useDynLib("your-package-name")
+useDynLib(NaBa)
