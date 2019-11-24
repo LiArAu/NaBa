@@ -1,3 +1,3 @@
-#' @useDynLib your-package-name
+#' @useDynLib NaBa
 #' @importFrom Rcpp sourceCpp
 NULL
