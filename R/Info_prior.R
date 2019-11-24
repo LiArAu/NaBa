@@ -41,7 +41,7 @@ Info_prior=function(x,y,laplace=0){
   }
   else{
     numvar_tables=pdist_num(x.num,colnames(x.num),y,levels(y))
-    catvar_tables=llh_cat(x.cat,colnames(x.cat),y,laplace)
+    catvar_tables=llh_cat(x.cat,colnames(x.cat),y,0)
   }
   tables = c(numvar_tables,catvar_tables)
   attribs=match(colnames(x), names(tables))

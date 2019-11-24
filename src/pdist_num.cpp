@@ -19,10 +19,13 @@ List pdist_num(NumericMatrix all_numpredictors,CharacterVector varname,Character
         int count=0;
         for (int i =0; i<l ; i++){
           if (y[i]==type[j]){
-            sum[j]+=predictor[i];
-            squre_sum[j]+=predictor[i]*predictor[i];
-            count++;
-          }
+            if (NumericVector::is_na(predictor[i])){
+              sum[j]+=0;
+              squre_sum[j]+=0;}
+            else{
+              sum[j]+=predictor[i];
+              squre_sum[j]+=predictor[i]*predictor[i];
+              count++;}}
         }
         mean[j]=sum[j]/=count;
         sd[j]=sqrt((squre_sum[j]-count*mean[j]*mean[j])/(count-1));
@@ -39,7 +42,6 @@ List pdist_num(NumericMatrix all_numpredictors,CharacterVector varname,Character
     }
     return ret;
   }
-
 
 
 
