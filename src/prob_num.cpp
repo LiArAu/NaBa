@@ -13,7 +13,7 @@ List prob_num(int ly,CharacterVector ty,NumericMatrix newdata,List table){
     for (int k =0; k<lx; k++){
       NumericMatrix x_prior=table[k];
       for (int j =0; j<entry; j++){
-        if (NumericVector::is_na(newdata(j,k))){ newdata(j,k)=R_NegInf}
+        if (NumericVector::is_na(newdata(j,k))){ newdata(j,k)=R_NegInf;}
       }
       double m=x_prior(i,0);
       double v=x_prior(i,1);
