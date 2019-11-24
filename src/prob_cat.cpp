@@ -17,6 +17,9 @@ List prob_cat(int ly,CharacterVector ty,CharacterMatrix newdata,List table){
       for (int j =0; j<entry; j++){
         NumericVector m=x_prior(i,_);
         prob_y(j,k)=m[pos[j]-1];
+        if (CharacterVector::is_na(newdata(j,k))){
+          prob_y(j,k)=1;
+        }
       }}
     String name=ty[i];
     all_prob[name]=prob_y;

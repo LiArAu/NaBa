@@ -56,11 +56,11 @@ newdata=test.na[81:100,1:4]
 
 ```{r}
 devtools::install_github("LiArAu/NaBa")
-library(NaBa) 
+library(NaBa)
 library(Rcpp)
 prior=NaBa::Info_prior(x,y)
-myresult_raw=NaBa::predict_naBa(prior,newdata,"raw")
-myresult_class=NaBa::predict_naBa(prior,ppd_data,"class")
+myresult_raw=predict_naBa(prior,newdata,"raw")
+myresult_class=predict_naBa(prior,ppd_data,"class")
 myresult_class
 ```
 
@@ -69,6 +69,7 @@ library(e1071)
 prior2=e1071::naiveBayes(x,y)
 e1071result_raw=predict(prior2,newdata,"raw")
 e1071result_class=predict(prior2,newdata)
+e1071result_class
 ```
 
 ```{r}

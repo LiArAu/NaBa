@@ -34,23 +34,47 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
 
   if (length(num_var)==0){
     newdata_cat=as.matrix(newdata[,cat_var])
-    prob.cat=prob_cat(ny,newdata_cat,prior$catvar_conpro,one_ob_prob_cat)
-    numerator=t(prob.cat)}
+    prob.cat=prob_cat(nlevels(y),levels(y),newdata_cat,prior$tables[colnames(newdata_cat)])
+    prob.cat=lapply(prob.cat,function(x) {
+      apply(x,2,function(a){
+        a[a<=eps]=threshold
+        a=log(a)
+        return (a)})})
+    numerator=as.data.frame(lapply(prob.cat,rowSums))
+    }
   else if (length(cat_var)==0){
     newdata_num=as.matrix(newdata[,num_var])
-    prob.num=prob_num(ny,newdata_num,prior$numvar_dist,one_ob_prob_num)
-    numerator=t(prob.num)}
+    prob.num=prob_num(nlevels(y),levels(y),newdata_num,prior$tables[colnames(newdata_num)])
+    prob.num=lapply(prob.num,function(x) {
+      apply(x,2,function(a){
+        a[a==0]=1
+        a[a<=eps]=threshold
+        a=log(a)
+        return (a)})})
+    numerator=as.data.frame(lapply(prob.num,rowSums))}
   else{
     newdata_num=as.matrix(newdata[,num_var])
     newdata_cat=as.matrix(newdata[,cat_var])
-    prob.cat=prob_cat(ny,newdata_cat,prior$catvar_conpro,one_ob_prob_cat)
-    prob.num=prob_num(ny,newdata_num,prior$numvar_dist,one_ob_prob_num)
-    numerator=t(prob.num+prob.cat)}
-
+    prob.cat=prob_cat(nlevels(y),levels(y),newdata_cat,prior$tables[colnames(newdata_cat)])
+    prob.num=prob_num(nlevels(y),levels(y),newdata_num,prior$tables[colnames(newdata_num)])
+    prob.cat=lapply(prob.cat,function(x) {
+      apply(x,2,function(a){
+        a[a<=eps]=threshold
+        a=log(a)
+        return (a)})})
+    prob.num=lapply(prob.num,function(x) {
+      apply(x,2,function(a){
+        a[a==0]=1
+        a[a<=eps]=threshold
+        a=log(a)
+        return (a)})})
+    foo <- function(x, y) {lapply(list(x+y),rowSums)}
+    numerator=as.data.frame(mapply(foo, prob.cat, prob.num))
+    }
   numerator=numerator+t(matrix(log(prior$apriori),ny,nrow(newdata)))
   output=sapply(1:ny,function(y){ 1/rowSums(exp(numerator - numerator[,y]))})
-  if (type == "class"){ output=as.factor(names(prior$apriori)[apply(output, 1, which.max)])}
-  else { colnames(output)=names(prior$apriori)}
+  if (type == "class"){output=as.factor(names(prior$apriori)[apply(output, 1, which.max)])}
+  else {colnames(output)=names(prior$apriori)}
   return (output)
 }
 
