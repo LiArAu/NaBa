@@ -10,13 +10,13 @@ predict_naBa(prior, newdata, type = c("class", "raw"), eps = 0,
 \arguments{
 \item{prior}{Prior information. (output of Info_prior())}
 
+\item{newdata}{with the same format as prior dataset. (Output of prep())}
+
 \item{type}{Type of outcome you want: "Class" prediction or "Raw" probabilities.}
 
 \item{eps}{A small number to specify an epsilon-range for Laplace smoothing; default=0.}
 
 \item{threshold}{Replace cells value under epsilon range with threshold; default=0.001.}
-
-\item{ppd_data}{Prepared newdata with the same format as prior dataset. (Output of prep())}
 }
 \value{
 `output`: A vector of predicted classes if type="class";
@@ -30,6 +30,5 @@ iris=as.data.frame(iris)
 x=iris[,1:4]
 y=iris[,5]
 prior=Info_prior(x,y)  #Laplace=0 as default
-ppd_data=prep(prior,newdata)
-myresult=predict_naBa(prior,ppd_data,"raw")
+myresult=predict_naBa(prior,newdata,"raw")
 }

@@ -1,25 +1,20 @@
 #' Using prior information to calculate distribution of responses and
 #' conditional probability of predictors given certain reponse.
 #'
-#' You can use `Info_prior` with any data frame without any NA in it.
+#' You can use `Info_prior` with any data frame.
 #'
 #' @param x Prior information of predictors.
 #' @param y Prior information of responses.
 #' @param laplace A small correction to smooth categorical data.
-#' @return
-#'   `apriori`: Distribution of responses.
-#'   `numvar_dist`: A list of distribution (mean and variance) of numeric predictors.
-#'   `catvar_conpro`: A list of conditional probability of categorical predictors.
-#'   `var_names`: Names of all predictors.
+#' @return  `apriori`: Distribution of responses.
+#' @return  `numvar_dist`: A list of distribution (mean and variance) of numeric predictors.
+#' @return  `catvar_conpro`: A list of conditional probability of categorical predictors.
+#' @return  `var_names`: Names of all predictors.
 #' @export
 #' @examples
 #' iris=as.data.frame(iris)
 #' x=iris[,1:4]
 #' y=iris[,5]
-#'
-#' # Make sure there is no missing data in your dataset before putting them in the function,
-#'   you may impute your data or simply remove observations with NA.
-#' # Make sure y is a factor.
 #' prior=Info_prior(x,y)  #Laplace=0 as default
 #' prior
 

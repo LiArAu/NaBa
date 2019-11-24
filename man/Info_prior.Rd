@@ -16,21 +16,20 @@ Info_prior(x, y, laplace = 0)
 }
 \value{
 `apriori`: Distribution of responses.
-  `numvar_dist`: A list of distribution (mean and variance) of numeric predictors.
-  `catvar_conpro`: A list of conditional probability of categorical predictors.
-  `var_names`: Names of all predictors.
+
+`numvar_dist`: A list of distribution (mean and variance) of numeric predictors.
+
+`catvar_conpro`: A list of conditional probability of categorical predictors.
+
+`var_names`: Names of all predictors.
 }
 \description{
-You can use `Info_prior` with any data frame without any NA in it.
+You can use `Info_prior` with any data frame.
 }
 \examples{
 iris=as.data.frame(iris)
 x=iris[,1:4]
 y=iris[,5]
-
-# Make sure there is no missing data in your dataset before putting them in the function,
-  you may impute your data or simply remove observations with NA.
-# Make sure y is a factor.
 prior=Info_prior(x,y)  #Laplace=0 as default
 prior
 }
