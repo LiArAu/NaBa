@@ -31,7 +31,7 @@ newdata=newt[10:14,1:3]
 ```{r}
 set.seed(101)
 test=data.frame(age=sample.int(30,100,replace=T),
-                sex=sample(c("Female","Male","NA"),100,replace=T),
+                sex=sample(c("Female","Male"),100,replace=T),
                 weight=rnorm(100,100,10),
                 local=sample(c("TRUE","FALSE"),100,replace=T),
                 mood=sample(c("bad","ok","excellent"),100,replace=T)
@@ -47,8 +47,7 @@ devtools::install_github("LiArAu/NaBa")
 library(NaBa)
 library(Rcpp)
 prior=NaBa::Info_prior(x,y)
-ppd_data=NaBa::prep(prior,newdata)
-myresult_raw=NaBa::predict_naBa(prior,ppd_data,"raw")
+myresult_raw=NaBa::predict_naBa(prior,newdata,"raw")
 myresult_class=NaBa::predict_naBa(prior,ppd_data,"class")
 myresult_class
 ```
@@ -81,4 +80,27 @@ NaBa::predict_naBa(prior,ppd_data,"raw"),
 predict(prior2,newdata,"raw"),
 predict(prior3,newdata,"prob"))
 ggplot2::autoplot(tm)
+```
+```{r}
+cppFunction('List prob_cat(int ly,CharacterVector ty,CharacterMatrix newdata,List table){
+  int entry=newdata.nrow();
+  int lx=newdata.ncol();
+  List all_prob;
+
+  for (int i =0; i<ly; i++){
+    NumericMatrix prob_y(entry,lx);
+    for (int k =0; k<lx; k++){
+      NumericMatrix x_prior=table[k];
+      NumericVector m=x_prior(i,_);
+      for (int j =0; j<entry; j++){
+        String temp=newdata(j,k);
+        prob_y(j,k)=m[temp];}
+      }
+    String name=ty[i];
+    all_prob[name]=prob_y;
+  }
+  return all_prob;
+}')
+prob_cat(3,levels(y),newdata_cat,prior$tables[prior$catvar_names])
+
 ```

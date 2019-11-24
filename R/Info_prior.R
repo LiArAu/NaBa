@@ -48,6 +48,8 @@ Info_prior=function(x,y,laplace=0){
   tables=tables[attribs]
   return (list(apriori = apriori,
                tables = tables,
+               numvar_names=colnames(x.num),
+               catvar_names=colnames(x.cat),
                var_names=colnames(x)))
 }
 

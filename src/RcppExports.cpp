@@ -33,10 +33,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// prob_num
+List prob_num(int ly, CharacterVector ty, NumericMatrix newdata, List table, double eps, double threshold);
+RcppExport SEXP _NaBa_prob_num(SEXP lySEXP, SEXP tySEXP, SEXP newdataSEXP, SEXP tableSEXP, SEXP epsSEXP, SEXP thresholdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type ly(lySEXP);
+    Rcpp::traits::input_parameter< CharacterVector >::type ty(tySEXP);
+    Rcpp::traits::input_parameter< NumericMatrix >::type newdata(newdataSEXP);
+    Rcpp::traits::input_parameter< List >::type table(tableSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    Rcpp::traits::input_parameter< double >::type threshold(thresholdSEXP);
+    rcpp_result_gen = Rcpp::wrap(prob_num(ly, ty, newdata, table, eps, threshold));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_NaBa_llh_cat", (DL_FUNC) &_NaBa_llh_cat, 4},
     {"_NaBa_pdist_num", (DL_FUNC) &_NaBa_pdist_num, 4},
+    {"_NaBa_prob_num", (DL_FUNC) &_NaBa_prob_num, 6},
     {NULL, NULL, 0}
 };
 

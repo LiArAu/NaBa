@@ -27,30 +27,30 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
   not_na=which(!is.na(attribs))
   ppd_data[,not_na]=newdata[,attribs[not_na]]
   colnames(ppd_data)=prior$var_names
-
+  ny=length(prior$apriori)
+  newdata=ppd_data
   num_var=names(prior$numvar_dist)
   cat_var=names(prior$catvar_conpro)
-  ny=length(prior$apriori)
-  newdata=ppd_data$new
-  newdata_num=as.matrix(newdata[,num_var])
-  newdata_cat=as.matrix(newdata[,cat_var])
-  if (length(ppd_data$num_var)==0){
+
+  if (length(num_var)==0){
+    newdata_cat=as.matrix(newdata[,cat_var])
     prob.cat=prob_cat(ny,newdata_cat,prior$catvar_conpro,one_ob_prob_cat)
     numerator=t(prob.cat)}
-  else if (length(ppd_data$cat_var)==0){
+  else if (length(cat_var)==0){
+    newdata_num=as.matrix(newdata[,num_var])
     prob.num=prob_num(ny,newdata_num,prior$numvar_dist,one_ob_prob_num)
     numerator=t(prob.num)}
   else{
+    newdata_num=as.matrix(newdata[,num_var])
+    newdata_cat=as.matrix(newdata[,cat_var])
     prob.cat=prob_cat(ny,newdata_cat,prior$catvar_conpro,one_ob_prob_cat)
     prob.num=prob_num(ny,newdata_num,prior$numvar_dist,one_ob_prob_num)
     numerator=t(prob.num+prob.cat)}
 
-    numerator=numerator+t(matrix(log(prior$apriori),ny,nrow(newdata)))
-    output=sapply(1:ny,function(y){ 1/rowSums(exp(numerator - numerator[,y]))})
-  if (type == "class"){
-    output=as.factor(names(prior$apriori)[apply(output, 1, which.max)])}
-  else {
-    colnames(output)=names(prior$apriori)}
+  numerator=numerator+t(matrix(log(prior$apriori),ny,nrow(newdata)))
+  output=sapply(1:ny,function(y){ 1/rowSums(exp(numerator - numerator[,y]))})
+  if (type == "class"){ output=as.factor(names(prior$apriori)[apply(output, 1, which.max)])}
+  else { colnames(output)=names(prior$apriori)}
   return (output)
 }
 
