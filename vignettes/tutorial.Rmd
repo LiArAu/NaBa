@@ -31,7 +31,7 @@ newdata=newt[10:14,1:3]
 ```{r}
 set.seed(101)
 test=data.frame(age=sample.int(30,100,replace=T),
-                sex=sample(c("Female","Male"),100,replace=T),
+                sex=sample(c("Female","Male","NA"),100,replace=T),
                 weight=rnorm(100,100,10),
                 local=sample(c("TRUE","FALSE"),100,replace=T),
                 mood=sample(c("bad","ok","excellent"),100,replace=T)
@@ -43,22 +43,42 @@ newdata=test[81:100,1:4]
 ```
 
 ```{r}
+#devtools::install_github("LiArAu/NaBa")
 library(NaBa)
+library(Rcpp)
 prior=NaBa::Info_prior(x,y)
 ppd_data=NaBa::prep(prior,newdata)
-myresult=NaBa::predict_naBa(prior,ppd_data,"raw")
-myresult
+myresult_raw=NaBa::predict_naBa(prior,ppd_data,"raw")
+myresult_class=NaBa::predict_naBa(prior,ppd_data,"class")
+myresult_class
 ```
 
 ```{r}
-#compared to e1071
 library(e1071)
 prior2=e1071::naiveBayes(x,y)
-e1071result=predict(prior2,newdata,"raw")
-e1071result
+e1071result_raw=predict(prior2,newdata,"raw")
+e1071result_class=predict(prior2,newdata)
 ```
 
 ```{r}
-all.equal(myresult,e1071result)
+library(naivebayes)
+prior3=naivebayes::naive_bayes(x,y)
+nbresult_raw=predict(prior3,newdata,"prob")
+nbresult_class=predict(prior3,newdata)
+```
 
+```{r}
+#Comparisons
+all.equal(myresult_raw,e1071result_raw)
+all.equal(myresult_class,e1071result_class)
+
+
+library(microbenchmark)
+library(ggplot2)
+
+tm <- microbenchmark::microbenchmark(
+NaBa::predict_naBa(prior,ppd_data,"raw"),
+predict(prior2,newdata,"raw"),
+predict(prior3,newdata,"prob"))
+ggplot2::autoplot(tm)
 ```

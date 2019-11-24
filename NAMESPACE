@@ -2,4 +2,3 @@
 
 export(Info_prior)
 export(predict_naBa)
-export(prep)

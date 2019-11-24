@@ -19,55 +19,21 @@
 #' ppd_data=prep(prior,newdata)
 #' myresult=predict_naBa(prior,ppd_data,"raw")
 
-predict_naBa=function(prior,ppd_data, type = c("class", "raw"),eps=0,threshold=0.001){
-  one_ob_prob_num=function(y_len,newdata_num,table,eps=0,threshold=0.001){
-    prob=matrix(nrow=y_len,ncol=length(newdata_num))
-    for (j in 1:length(newdata_num)){
-      x_prior=table[[j]]
-      x_prior[x_prior[, 2]<=eps, 2]=threshold
-      if (is.na(newdata_num[j])){ prob[,j]=1}
-      else{
-        prob[,j]=dnorm(newdata_num[j],x_prior[,1],x_prior[,2],FALSE)
-        prob[prob[,j] <= eps,j]=threshold}}
-    return (rowSums(log(prob)))}
+predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.001){
+  newdata=as.data.frame(newdata)
+  ## fix factor variables to be identical with training data
+  attribs <- match(prior$var_names, names(newdata))
+  ppd_data=data.frame(matrix(nrow=nrow(newdata),ncol=length(attribs)))
+  not_na=which(!is.na(attribs))
+  ppd_data[,not_na]=newdata[,attribs[not_na]]
+  colnames(ppd_data)=prior$var_names
 
-  cppFunction('NumericMatrix prob_num(int y_len,NumericMatrix newdata,List table,Function f, double eps=0, double threshold=0.001){
-    int entry=newdata.nrow();
-    NumericMatrix all_prob(y_len,entry);
-    for (int j =0; j<entry; j++){
-      NumericVector nd=newdata(j,_);
-      NumericVector temp=f(y_len,nd,table,eps,threshold);
-      for (int i =0; i<y_len; i++){
-         all_prob(i,j)=temp[i];}}
-    return all_prob;}')
-
-  one_ob_prob_cat=function(table,y_len,newdata_cat,eps=0,threshold=0.001){
-    prob=matrix(nrow=y_len,ncol=length(newdata_cat))
-    for (j in 1:length(newdata_cat)){
-      if (is.na(newdata_cat[j])){ prob[,j]=1 }
-      else{
-        prob[,j]=table[[j]][,newdata_cat[j]]
-        prob[prob[,j] <= eps,j]=threshold}}
-    return (rowSums(log(prob)))}
-
-
-  cppFunction('NumericMatrix prob_cat(int y_len,CharacterMatrix newdata,List table,Function f){
-    int entry=newdata.nrow();
-    NumericMatrix all_prob(y_len,entry);
-    for (int j =0; j<entry; j++){
-      CharacterVector nd=newdata(j,_);
-      NumericVector temp=f(table,y_len,nd);
-      for (int i =0; i<y_len; i++){
-         all_prob(i,j)=temp[i];
-      }
-    }
-    return all_prob;
-            }')
-
+  num_var=names(prior$numvar_dist)
+  cat_var=names(prior$catvar_conpro)
   ny=length(prior$apriori)
   newdata=ppd_data$new
-  newdata_num=as.matrix(newdata[,ppd_data$num_var])
-  newdata_cat=as.matrix(newdata[,ppd_data$cat_var])
+  newdata_num=as.matrix(newdata[,num_var])
+  newdata_cat=as.matrix(newdata[,cat_var])
   if (length(ppd_data$num_var)==0){
     prob.cat=prob_cat(ny,newdata_cat,prior$catvar_conpro,one_ob_prob_cat)
     numerator=t(prob.cat)}
