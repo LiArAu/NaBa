@@ -6,18 +6,17 @@
 #' @param newdata with the same format as prior dataset. (Output of prep())
 #' @param type Type of outcome you want: "Class" prediction or "Raw" probabilities.
 #' @param eps A small number to specify an epsilon-range for Laplace smoothing; default=0.
-#' @param threshold Replace cells value under epsilon range with threshold; default=0.001.
+#' @param threshold Replace cells value under epsilon range; default=0.001.
 #' @return
-#'   `output`: A vector of predicted classes if type="class";
-#'   A matrix of conditional probabilities if type="raw".
+#'   `output`: If type="class", returns a vector of predicted classes ;
+#'   If type="raw", returns a matrix of conditional probabilities.
 #' @export
 #' @examples
 #' data(mood)
-#' n=2000
-#' x=mood[1:(3/4*n),1:5]
-#' y=mood[1:(3/4*n),6]
+#' x=mood[,1:5]
+#' y=mood[,6]
 #' prior=Info_prior(x,y)  #Laplace=0 as default
-#' newdata=mood[(3/4*n+1):n,1:5]
+#' newdata=mood[1:200,1:5]
 #' myresult=predict_naBa(prior,newdata,"raw")
 
 predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.001){
