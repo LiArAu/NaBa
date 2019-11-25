@@ -12,11 +12,12 @@
 #'   A matrix of conditional probabilities if type="raw".
 #' @export
 #' @examples
-#' iris=as.data.frame(iris)
-#' x=iris[,1:4]
-#' y=iris[,5]
-#' newdata=iris[30:40,1:4]
+#' data(mood)
+#' n=2000
+#' x=mood[1:(3/4*n),1:5]
+#' y=mood[1:(3/4*n),6]
 #' prior=Info_prior(x,y)  #Laplace=0 as default
+#' newdata=mood[(3/4*n+1):n,1:5]
 #' myresult=predict_naBa(prior,newdata,"raw")
 
 predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.001){

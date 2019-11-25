@@ -27,9 +27,10 @@ Info_prior(x, y, laplace = 0)
 You can use `Info_prior` with any data frame.
 }
 \examples{
-iris=as.data.frame(iris)
-x=iris[,1:4]
-y=iris[,5]
+data(mood)
+n=2000
+x=mood[1:(3/4*n),1:5]
+y=mood[1:(3/4*n),6]
 prior=Info_prior(x,y)  #Laplace=0 as default
 prior
 }
