@@ -24,10 +24,9 @@ library(devtools)
 
 ```{r,echo=FALSE}
 data(mood)
-n=2000
-x=mood[1:(3/4*n),1:5]
-y=mood[1:(3/4*n),6]
-newdata=mood[(3/4*n+1):n,1:5]
+x=mood[,1:5]
+y=mood[,6]
+newdata=mood[1:200,1:5]
 ```
 
 ```{r}
@@ -64,7 +63,7 @@ all.equal(myresult_class,e1071result_class)
 
 ```{r}
 tm <- microbenchmark::microbenchmark(
-NaBa_result=predict_naBa(prior,newdata,"raw"),
+NaBa_result=NaBa::predict_naBa(prior,newdata,"raw"),
 e1071_result=predict(prior2,newdata,"raw"),
 naivebayes_result=predict(prior3,newdata,"prob"))
 ggplot2::autoplot(tm)
