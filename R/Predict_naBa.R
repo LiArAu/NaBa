@@ -15,6 +15,7 @@
 #' iris=as.data.frame(iris)
 #' x=iris[,1:4]
 #' y=iris[,5]
+#' newdata=iris[30:40,1:4]
 #' prior=Info_prior(x,y)  #Laplace=0 as default
 #' myresult=predict_naBa(prior,newdata,"raw")
 

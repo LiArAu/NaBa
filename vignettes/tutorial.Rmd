@@ -23,7 +23,7 @@ library(ggplot2)
 
 ```{r,echo=FALSE}
 set.seed(101)
-n=20
+n=2000
 mood=data.frame(age=sample(seq(18,25),n,replace=T),
               sex=sample(c("Female","Male"),n,replace=T),
               gpa=sample(seq(2,4,0.1),n,replace=T),
