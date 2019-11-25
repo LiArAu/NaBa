@@ -17,26 +17,22 @@ library(e1071)
 library(naivebayes)
 library(microbenchmark)
 library(ggplot2)
-library(devtools)
 ```
 
-## Generate test data 
+## Have a look at the test data
 
 ```{r,echo=FALSE}
 data(mood)
 x=mood[,1:5]
 y=mood[,6]
 newdata=mood[1:200,1:5]
-```
-
-```{r}
 head(mood)
 dim(mood)
 head(newdata)
 dim(newdata)
 ```
 
-## Obtain prior information and make predictions using `NaBa`, `Info_prior` and `predict_naBa`
+## Obtain prior information and make predictions using `NaBa`, `e1071` and `naivebayes`
 
 ```{r}
 prior=NaBa::Info_prior(x,y)
@@ -59,7 +55,7 @@ all.equal(myresult_raw,e1071result_raw)
 all.equal(myresult_class,e1071result_class)
 ```
 
-## Compare `predict_naBa` with `predict` in other two packages:
+## Compare efficiency of predict function with other packages:
 
 ```{r}
 tm <- microbenchmark::microbenchmark(
