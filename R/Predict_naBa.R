@@ -33,7 +33,7 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
 
   if (length(num_var)==0){
     newdata_cat=as.matrix(newdata[,cat_var])
-    prob.cat=prob_cat(nlevels(y),levels(y),newdata_cat,prior$tables[colnames(newdata_cat)])
+    prob.cat=prob_cat(length(prior$apriori),names(prior$apriori),newdata_cat,prior$tables[colnames(newdata_cat)])
     prob.cat=lapply(prob.cat,function(x) {
       apply(x,2,function(a){
         a[a<=eps]=threshold
@@ -42,7 +42,7 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
     numerator=as.data.frame(lapply(prob.cat,rowSums))}
   else if (length(cat_var)==0){
     newdata_num=as.matrix(newdata[,num_var])
-    prob.num=prob_num(nlevels(y),levels(y),newdata_num,prior$tables[colnames(newdata_num)])
+    prob.num=prob_num(length(prior$apriori),names(prior$apriori),newdata_num,prior$tables[colnames(newdata_num)])
     prob.num=lapply(prob.num,function(x) {
       apply(x,2,function(a){
         a[a==0]=1
@@ -53,8 +53,8 @@ predict_naBa=function(prior,newdata, type = c("class", "raw"),eps=0,threshold=0.
   else{
     newdata_num=as.matrix(newdata[,num_var])
     newdata_cat=as.matrix(newdata[,cat_var])
-    prob.cat=prob_cat(nlevels(y),levels(y),newdata_cat,prior$tables[colnames(newdata_cat)])
-    prob.num=prob_num(nlevels(y),levels(y),newdata_num,prior$tables[colnames(newdata_num)])
+    prob.cat=prob_cat(length(prior$apriori),names(prior$apriori),newdata_cat,prior$tables[colnames(newdata_cat)])
+    prob.num=prob_num(length(prior$apriori),names(prior$apriori),newdata_num,prior$tables[colnames(newdata_num)])
     prob.cat=lapply(prob.cat,function(x) {
       apply(x,2,function(a){
         a[a<=eps]=threshold
