@@ -10,7 +10,7 @@ vignette: >
 ---
 
 ```{r setup, include=FALSE}
-#devtools::install_github("LiArAu/NaBa")
+devtools::install_github("LiArAu/NaBa")
 library(NaBa)
 library(Rcpp)
 library(e1071)
