@@ -2,7 +2,7 @@
 
   <!-- badges: start -->
   [![Travis build status](https://travis-ci.org/LiArAu/NaBa.svg?branch=master)](https://travis-ci.org/LiArAu/NaBa)
-  [![Codecov test coverage](https://codecov.io/gh/LiArAu/625mypkg/branch/master/graph/badge.svg)](https://codecov.io/gh/LiArAu/NaBa)
+  [![Codecov test coverage](https://codecov.io/gh/LiArAu/NaBa/branch/master/graph/badge.svg)](https://codecov.io/gh/LiArAu/NaBa?branch=master)
   <!-- badges: end -->
 
 ## Overview
@@ -35,5 +35,5 @@ NaBa::predict_naBa(prior,newdata,"class")
 
 ## Getting help
 
-If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/LiArAu/NaBa). For questions and other discussion, please send email to the [maintainer](yajingli@umich.edu).
+If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/LiArAu/NaBa). For questions and other discussion, please send email to the [maintainer](mailto:yajingli@umich.edu).
 
